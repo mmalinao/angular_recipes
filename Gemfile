@@ -31,6 +31,11 @@ gem 'spring',        group: :development
 gem 'bower-rails'
 gem 'angular-rails-templates'
 
+# API
+gem 'grape'
+gem 'grape-entity'
+# gem 'grape-swagger-rails'
+
 group :test, :development do
   gem 'rspec-rails', '~> 3.1'
   gem 'shoulda-matchers'
@@ -39,6 +44,7 @@ group :test, :development do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
+  gem 'grape-entity-matchers'
 end
 
 group :test do

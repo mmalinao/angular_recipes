@@ -56,6 +56,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # Macros
+  config.include Rack::Test::Methods, type: :request
+  config.include ApiMacros, type: :request
+
   # config.treat_symbols_as_metadata_keys_with_true_values = true # :key shorthand for :key => true (deprecated)
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'

@@ -50,3 +50,11 @@ group :development do
   gem 'better_errors'
   gem 'terminal-notifier-guard'
 end
+
+gem 'foreman'
+
+group :production, :staging do
+  gem 'rails_12factor'
+  gem 'rails_stdout_logging'
+  gem 'rails_serve_static_assets'
+end

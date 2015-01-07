@@ -23,7 +23,8 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+# ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -55,7 +56,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.treat_symbols_as_metadata_keys_with_true_values = true # :key shorthand for :key => true
+  # config.treat_symbols_as_metadata_keys_with_true_values = true # :key shorthand for :key => true (deprecated)
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'
 end

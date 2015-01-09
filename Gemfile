@@ -57,6 +57,7 @@ group :development do
   gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
+  gem 'guard-teaspoon'
   gem 'better_errors'
   gem 'terminal-notifier-guard'
 end

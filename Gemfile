@@ -45,6 +45,8 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'selenium-webdriver'
   gem 'grape-entity-matchers'
+  gem 'teaspoon'
+  gem 'phantomjs'
 end
 
 group :test do

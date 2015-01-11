@@ -1,0 +1,13 @@
+{
+  "name": "jasmine-let",
+  "homepage": "https://github.com/xaethos/jasmine-let",
+  "_release": "401603fc08",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "401603fc08e68920d1174ae55a4af0eafaaec438"
+  },
+  "_source": "git://github.com/xaethos/jasmine-let.git",
+  "_target": "*",
+  "_originalSource": "jasmine-let"
+}

@@ -16,9 +16,4 @@
 //= require angular-route/angular-route
 //= require angular-resource/angular-resource
 //= require angular-rails-templates
-//
-// Our Angular app
-//
-//= require_tree ./templates
-//= require app
-//= require recipes_controller
+//= require_tree .

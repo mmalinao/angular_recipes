@@ -1,73 +1,69 @@
+lazy = jasmineLet(jasmine, window)
+
 describe 'RecipesController', ->
-  scope       = null
-  ctrl        = null
-  location    = null
-  routeParams = null
-  resource    = null
+  $scope       = null
+  $controller  = null
+  $location    = null
+  $routeParams = null
+  $resource    = null
+  $httpBackend = null
 
-  httpBackend = null # access injected service later
-
-  setupController = (keywords, results) ->
-    inject(($location, $routeParams, $rootScope, $resource, $httpBackend, $controller) ->
-      scope       = $rootScope.$new()
-      location    = $location
-      resource    = $resource
-      routeParams = $routeParams
-      routeParams.keywords = keywords
-
-      # capture the injected service
-      httpBackend = $httpBackend
-
-      if results
-        request = new RegExp("\/recipes.*keywords=#{keywords}")
-        httpBackend.expectGET(request).respond(results)
-
-      ctrl        = $controller('RecipesController',
-                                $scope: scope
-                                $location: location)
+  beforeEach ->
+    module('app')
+    inject((_$rootScope_, _$controller_, _$location_, _$routeParams_, _$resource_, _$httpBackend_) ->
+      $scope = _$rootScope_.$new()
+      $controller = _$controller_
+      $location = _$location_
+      $routeParams = _$routeParams_
+      $resource = _$resource_
+      $httpBackend = _$httpBackend_
     )
 
-  beforeEach(module('app'))
-  beforeEach(setupController())
-
   afterEach ->
-    httpBackend.verifyNoOutstandingExpectation()
-    httpBackend.verifyNoOutstandingRequest()
+    $httpBackend.verifyNoOutstandingExpectation()
+    $httpBackend.verifyNoOutstandingRequest()
 
-  describe 'controller initialization', ->
+  describe '$scope', ->
+
+    beforeEach ->
+      $routeParams.keywords = keywords
+
+      $controller 'RecipesController',
+        $scope: $scope
+        $routeParams: $routeParams
 
     describe 'when no keywords present', ->
-      beforeEach(setupController())
+      lazy 'keywords', null
 
       it 'should default to no recipes', ->
-        expect(scope.recipes).toEqualData([])
+        expect($scope.recipes).toEqualData([])
 
     describe 'with keywords', ->
-      keywords = 'foo'
-      recipes = [
+      lazy 'keywords', 'foo'
+      lazy 'results', [
         {
           id: 2
           name: 'Baked Potatoes'
-        },
-        {
-          id: 4
-          name: 'Potatoes Au Gratin'
         }
       ]
 
       beforeEach ->
-        setupController(keywords, recipes)
-        httpBackend.flush()
+        request = new RegExp("\/recipes.*keywords=#{keywords}")
+        $httpBackend.expectGET(request).respond(results)
+        $httpBackend.flush()
 
-      it 'should call the backend', ->
-        expect(scope.recipes).toEqualData(recipes)
+      it 'should query for recipes', ->
+        expect($scope.recipes).toEqualData(results)
 
-  describe 'search()', ->
+  describe '$scope.search()', ->
+
     beforeEach ->
-      setupController()
+      $controller 'RecipesController',
+        $scope: $scope
+        $location: $location
+
+      $scope.search('foo')
 
     it 'should redirect to itself with a keyword param', ->
-      keywords = 'foo'
-      scope.search(keywords)
-      expect(location.path()).toBe('/')
-      expect(location.search()).toEqualData({keywords: keywords})
+      expect($location.path()).toBe('/')
+      expect($location.search()).toEqualData({keywords: 'foo'})

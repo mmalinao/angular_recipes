@@ -2,7 +2,7 @@ controllers = angular.module('controllers')
 
 controllers.controller('RecipesController', ['$scope', '$routeParams', '$location', '$resource',
   ($scope, $routeParams, $location, $resource) ->
-    $scope.search = (keywords) -> $location.path('/').search('keywords', keywords).search('keywords', keywords)
+    $scope.search = (keywords) -> $location.path('/').search('keywords', keywords)
 
     Recipe = $resource('/api/v1/recipes/:id', { id: "@id", format: 'json' })
 

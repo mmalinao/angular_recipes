@@ -19,5 +19,6 @@
 //
 // Our Angular app
 //
+//= require_tree ./templates
 //= require app
 //= require recipes_controller

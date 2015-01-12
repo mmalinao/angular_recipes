@@ -43,9 +43,6 @@ describe 'RecipeIndexController', ->
       lazy 'keywords', 'foo'
       lazy 'results', [
         {
-
-
-
           id: 2
           name: 'Baked Potatoes'
         }

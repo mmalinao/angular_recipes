@@ -13,7 +13,7 @@ app.config([ '$routeProvider',
         controller: 'RecipeIndexController'
       ).when('/recipes/:id',
         templateUrl: 'show.html'
-        controller: 'RecipesController'
+        controller: 'RecipeShowController'
       )
 ])
 

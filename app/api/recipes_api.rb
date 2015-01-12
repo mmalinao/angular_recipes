@@ -9,5 +9,9 @@ class RecipesAPI < Grape::API
         present Recipe.all, with: Recipe::Entity
       end
     end
+
+    get ':id' do
+      present Recipe.find(params[:id]), with: Recipe::Entity
+    end
   end
 end

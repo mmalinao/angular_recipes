@@ -7,5 +7,9 @@ class Base < Grape::API
   prefix 'api'
   version 'v1', using: :path, format: :json
 
+  rescue_from ActiveRecord::RecordNotFound do |e|
+    error_response message: 'Not Found', status: 404
+  end
+
   mount RecipesAPI
 end

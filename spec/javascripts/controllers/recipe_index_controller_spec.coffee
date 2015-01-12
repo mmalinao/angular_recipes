@@ -1,21 +1,22 @@
 lazy = jasmineLet(jasmine, window)
 
-describe 'RecipesController', ->
+describe 'RecipeIndexController', ->
   $scope       = null
-  $controller  = null
-  $location    = null
   $routeParams = null
+  $location    = null
   $resource    = null
+
+  $controller  = null
   $httpBackend = null
 
   beforeEach ->
-    module('app')
-    inject((_$rootScope_, _$controller_, _$location_, _$routeParams_, _$resource_, _$httpBackend_) ->
+    module 'app'
+    inject((_$rootScope_, _$routeParams_, _$location_, _$resource_, _$controller_, _$httpBackend_) ->
       $scope = _$rootScope_.$new()
-      $controller = _$controller_
-      $location = _$location_
       $routeParams = _$routeParams_
+      $location = _$location_
       $resource = _$resource_
+      $controller = _$controller_
       $httpBackend = _$httpBackend_
     )
 
@@ -23,12 +24,12 @@ describe 'RecipesController', ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
-  describe '$scope', ->
+  describe 'init', ->
 
     beforeEach ->
       $routeParams.keywords = keywords
 
-      $controller 'RecipesController',
+      $controller 'RecipeIndexController',
         $scope: $scope
         $routeParams: $routeParams
 
@@ -42,6 +43,9 @@ describe 'RecipesController', ->
       lazy 'keywords', 'foo'
       lazy 'results', [
         {
+
+
+
           id: 2
           name: 'Baked Potatoes'
         }
@@ -55,10 +59,10 @@ describe 'RecipesController', ->
       it 'should query for recipes', ->
         expect($scope.recipes).toEqualData(results)
 
-  describe '$scope.search()', ->
+  describe 'search()', ->
 
     beforeEach ->
-      $controller 'RecipesController',
+      $controller 'RecipeIndexController',
         $scope: $scope
         $location: $location
 
@@ -66,4 +70,4 @@ describe 'RecipesController', ->
 
     it 'should redirect to itself with a keyword param', ->
       expect($location.path()).toBe('/')
-      expect($location.search()).toEqualData({keywords: 'foo'})
+      expect($location.search()).toEqualData({ keywords: 'foo' })

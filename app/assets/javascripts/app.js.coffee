@@ -8,8 +8,11 @@ app = angular.module('app', [
 app.config([ '$routeProvider',
   ($routeProvider) ->
     $routeProvider
-      .when('/',
+       .when('/',
         templateUrl: 'index.html'
+        controller: 'RecipeIndexController'
+      ).when('/recipes/:id',
+        templateUrl: 'show.html'
         controller: 'RecipesController'
       )
 ])

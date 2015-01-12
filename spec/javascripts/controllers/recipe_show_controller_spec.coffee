@@ -10,14 +10,17 @@ describe 'RecipeShowController', ->
   $controller  = null
   $httpBackend = null
 
+  flash        = null
+
   beforeEach ->
     module 'app'
-    inject((_$rootScope_, _$routeParams_, _$resource_, _$controller_, _$httpBackend_) ->
+    inject((_$rootScope_, _$routeParams_, _$resource_, _$controller_, _$httpBackend_, _flash_) ->
       $scope = _$rootScope_.$new()
       $routeParams = _$routeParams_
       $resource = _$resource_
       $controller = _$controller_
       $httpBackend = _$httpBackend_
+      flash = _flash_
     )
 
   afterEach ->
@@ -54,3 +57,6 @@ describe 'RecipeShowController', ->
 
       it 'should return null', ->
         expect($scope.recipe).toBe(null)
+
+      it 'should set flash error', ->
+        expect(flash.error).toBe("There is no recipe with id #{id}")

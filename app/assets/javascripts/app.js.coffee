@@ -2,7 +2,9 @@ app = angular.module('app', [
   'templates',
   'ngRoute',
   'ngResource',
-  'controllers'
+  'controllers',
+  'angular-flash.service',
+  'angular-flash.flash-alert-directive'
 ])
 
 app.config([ '$routeProvider',

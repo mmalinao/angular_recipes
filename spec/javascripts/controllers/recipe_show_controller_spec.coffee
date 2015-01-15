@@ -6,6 +6,7 @@ describe 'RecipeShowController', ->
   $scope       = null
   $routeParams = null
   $resource    = null
+  $location    = null
 
   $controller  = null
   $httpBackend = null
@@ -14,10 +15,11 @@ describe 'RecipeShowController', ->
 
   beforeEach ->
     module 'app'
-    inject((_$rootScope_, _$routeParams_, _$resource_, _$controller_, _$httpBackend_, _flash_) ->
+    inject((_$rootScope_, _$routeParams_, _$resource_, _$location_, _$controller_, _$httpBackend_, _flash_) ->
       $scope = _$rootScope_.$new()
       $routeParams = _$routeParams_
       $resource = _$resource_
+      $location = _$location_
       $controller = _$controller_
       $httpBackend = _$httpBackend_
       flash = _flash_
@@ -37,6 +39,7 @@ describe 'RecipeShowController', ->
       $controller 'RecipeShowController',
         $scope: $scope
         $routeParams: $routeParams
+        $location: $location
 
     describe 'when recipe exists', ->
       lazy 'id', -> recipe.id
@@ -47,6 +50,14 @@ describe 'RecipeShowController', ->
 
       it 'should return recipe', ->
         expect($scope.recipe).toEqualData(recipe)
+
+      describe 'back()', ->
+
+        beforeEach ->
+          $scope.back()
+
+        it 'should set location path to root path', ->
+          expect($location.path()).toBe('/')
 
     describe 'when recipe not found', ->
       lazy 'id', -1

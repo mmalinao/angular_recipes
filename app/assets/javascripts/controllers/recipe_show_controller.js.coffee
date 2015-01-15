@@ -1,7 +1,7 @@
 controllers = angular.module('controllers')
 
-controllers.controller('RecipeShowController', ['$scope', '$routeParams', '$resource', 'flash',
-  ($scope, $routeParams, $resource, flash) ->
+controllers.controller('RecipeShowController', ['$scope', '$routeParams', '$resource', '$location', 'flash',
+  ($scope, $routeParams, $resource, $location, flash) ->
     Recipe = $resource('/api/v1/recipes/:id', { id: '@id', format: 'json' })
 
     Recipe.get({ id: $routeParams.id },
@@ -11,4 +11,6 @@ controllers.controller('RecipeShowController', ['$scope', '$routeParams', '$reso
         flash.error = "There is no recipe with id #{$routeParams.id}"
       )
     )
+
+    $scope.back = -> $location.path('/')
 ])

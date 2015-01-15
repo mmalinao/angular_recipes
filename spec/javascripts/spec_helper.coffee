@@ -31,6 +31,8 @@
 #= require application
 #= require angular-mocks/angular-mocks
 #= require jasmine-let/jasmine-let
+#= require tb-factory/dist/factory
+#= require_tree ./factories
 
 beforeEach ->
   this.addMatchers

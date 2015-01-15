@@ -28,7 +28,7 @@ describe 'RecipeShowController', ->
     $httpBackend.verifyNoOutstandingRequest()
 
   describe 'init', ->
-    lazy 'recipe', { id: 1, name: 'Baked Potato' }
+    lazy 'recipe', Factory.build('recipe')
     lazy 'request', -> new RegExp("\/recipes/#{id}")
 
     beforeEach ->
@@ -39,7 +39,7 @@ describe 'RecipeShowController', ->
         $routeParams: $routeParams
 
     describe 'when recipe exists', ->
-      lazy 'id', 1
+      lazy 'id', -> recipe.id
 
       beforeEach ->
         $httpBackend.expectGET(request).respond(200, recipe)
@@ -49,7 +49,7 @@ describe 'RecipeShowController', ->
         expect($scope.recipe).toEqualData(recipe)
 
     describe 'when recipe not found', ->
-      lazy 'id', 2
+      lazy 'id', -1
 
       beforeEach ->
         $httpBackend.expectGET(request).respond(404, null)

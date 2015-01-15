@@ -41,12 +41,7 @@ describe 'RecipeIndexController', ->
 
     describe 'with keywords', ->
       lazy 'keywords', 'foo'
-      lazy 'results', [
-        {
-          id: 2
-          name: 'Baked Potatoes'
-        }
-      ]
+      lazy 'results', [ Factory.build('recipe') ]
 
       beforeEach ->
         request = new RegExp("\/recipes.*keywords=#{keywords}")

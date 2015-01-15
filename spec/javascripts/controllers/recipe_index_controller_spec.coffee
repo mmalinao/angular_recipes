@@ -63,3 +63,15 @@ describe 'RecipeIndexController', ->
     it 'should redirect to itself with a keyword param', ->
       expect($location.path()).toBe('/')
       expect($location.search()).toEqualData({ keywords: 'foo' })
+
+  describe 'view()', ->
+
+    beforeEach ->
+      $controller 'RecipeIndexController',
+        $scope: $scope
+        $location: $location
+
+      $scope.view(1)
+
+    it 'should set location path to recipe path', ->
+      expect($location.path()).toBe('/recipes/1')

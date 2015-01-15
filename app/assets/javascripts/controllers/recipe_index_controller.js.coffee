@@ -10,4 +10,6 @@ controllers.controller('RecipeIndexController', ['$scope', '$routeParams', '$loc
       $scope.recipes = []
 
     $scope.search = (keywords) -> $location.path('/').search('keywords', keywords)
+
+    $scope.view = (id) -> $location.path("/recipes/#{id}")
 ])

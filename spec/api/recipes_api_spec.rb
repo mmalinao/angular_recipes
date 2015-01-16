@@ -57,4 +57,43 @@ describe RecipesAPI, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/recipes' do
+    subject(:do_post) { post '/api/v1/recipes', params }
+
+    let(:new_recipe) { Recipe.last }
+    let(:params) { FactoryGirl.attributes_for(:recipe) }
+
+    it 'should create a new Recipe' do
+      expect { do_post }.to change { Recipe.count }.by(1)
+    end
+
+    it 'should create a new Recipe with given parameters' do
+      do_post
+      expect(new_recipe).to have_attributes params
+    end
+
+    it 'should return new recipe as json' do
+      do_post
+      expect(json_response).to eq represent_as_json(new_recipe)
+    end
+
+    context 'when invalid params' do
+      let(:params) { FactoryGirl.attributes_for(:recipe, name: nil) }
+
+      it 'should not create a new Recipe' do
+        expect { do_post }.to_not change { Recipe.count }
+      end
+
+      it 'should return 422 status' do
+        do_post
+        expect(last_response.status).to eq 422
+      end
+
+      it 'should set error message' do
+        do_post
+        expect(json_response['error']).to_not be_nil
+      end
+    end
+  end
 end

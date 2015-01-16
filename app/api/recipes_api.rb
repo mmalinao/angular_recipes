@@ -1,5 +1,11 @@
 class RecipesAPI < Grape::API
 
+  helpers do
+    def permitted_params
+      ActionController::Parameters.new(params).permit(:name, :instructions)
+    end
+  end
+
   resource :recipes do
 
     get do
@@ -12,6 +18,10 @@ class RecipesAPI < Grape::API
 
     get ':id' do
       present Recipe.find(params[:id]), with: Recipe::Entity
+    end
+
+    post do
+      present Recipe.create!(permitted_params), with: Recipe::Entity
     end
   end
 end

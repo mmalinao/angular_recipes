@@ -78,6 +78,11 @@ describe RecipesAPI, type: :request do
       expect(json_response).to eq represent_as_json(new_recipe)
     end
 
+    it 'should return 201 status' do
+      do_post
+      expect(last_response.status).to eq 201
+    end
+
     context 'when invalid params' do
       let(:params) { FactoryGirl.attributes_for(:recipe, name: nil) }
 

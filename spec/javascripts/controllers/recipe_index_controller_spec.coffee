@@ -9,8 +9,7 @@ describe 'RecipeIndexController', ->
   $controller  = null
   $httpBackend = null
 
-  beforeEach ->
-    module 'app'
+  inject_controller = ->
     inject((_$rootScope_, _$routeParams_, _$location_, _$resource_, _$controller_, _$httpBackend_) ->
       $scope = _$rootScope_.$new()
       $routeParams = _$routeParams_
@@ -20,44 +19,44 @@ describe 'RecipeIndexController', ->
       $httpBackend = _$httpBackend_
     )
 
+  lazy 'get_request', -> new RegExp("\/recipes.*keywords=#{keywords}")
+
+  beforeEach ->
+    module 'app'
+    inject_controller()
+
+    $routeParams.keywords = keywords
+
+    $controller 'RecipeIndexController',
+      $scope: $scope
+      $routeParams: $routeParams
+      $location: $location
+
   afterEach ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
-  describe 'init', ->
+  describe 'when no keywords present', ->
+    lazy 'keywords', -> null
+
+    it 'should default to no recipes', ->
+      expect($scope.recipes).toEqualData([])
+
+  describe 'with keywords', ->
+    lazy 'keywords', -> 'foo'
+    lazy 'results', [ Factory.build('recipe') ]
 
     beforeEach ->
-      $routeParams.keywords = keywords
+      $httpBackend.expectGET(get_request).respond(200, results)
+      $httpBackend.flush()
 
-      $controller 'RecipeIndexController',
-        $scope: $scope
-        $routeParams: $routeParams
-
-    describe 'when no keywords present', ->
-      lazy 'keywords', null
-
-      it 'should default to no recipes', ->
-        expect($scope.recipes).toEqualData([])
-
-    describe 'with keywords', ->
-      lazy 'keywords', 'foo'
-      lazy 'results', [ Factory.build('recipe') ]
-
-      beforeEach ->
-        request = new RegExp("\/recipes.*keywords=#{keywords}")
-        $httpBackend.expectGET(request).respond(results)
-        $httpBackend.flush()
-
-      it 'should query for recipes', ->
-        expect($scope.recipes).toEqualData(results)
+    it 'should query for recipes', ->
+      expect($scope.recipes).toEqualData(results)
 
   describe 'search()', ->
+    lazy 'keywords', -> null
 
     beforeEach ->
-      $controller 'RecipeIndexController',
-        $scope: $scope
-        $location: $location
-
       $scope.search('foo')
 
     it 'should redirect to itself with a keyword param', ->
@@ -65,12 +64,9 @@ describe 'RecipeIndexController', ->
       expect($location.search()).toEqualData({ keywords: 'foo' })
 
   describe 'view()', ->
+    lazy 'keywords', -> null
 
     beforeEach ->
-      $controller 'RecipeIndexController',
-        $scope: $scope
-        $location: $location
-
       $scope.view(1)
 
     it 'should set location path to recipe path', ->

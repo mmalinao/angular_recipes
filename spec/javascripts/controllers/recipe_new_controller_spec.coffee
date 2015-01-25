@@ -32,9 +32,8 @@ describe 'RecipeNewController', ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
-  describe 'init', ->
-    it 'should define recipe', ->
-      expect($scope.recipe).toBeDefined()
+  it 'should define recipe', ->
+    expect($scope.recipe).toBeDefined()
 
   describe 'create()', ->
     lazy 'post_request', -> new RegExp("\/recipes")
@@ -55,3 +54,11 @@ describe 'RecipeNewController', ->
     it 'should set location path to new recipe path', ->
       do_create
       expect($location.path()).toBe("/recipes/#{new_recipe.id}")
+
+    describe 'when invalid params', ->
+
+      it 'should set flash error', ->
+        $httpBackend.expectPOST(post_request, $scope.recipe).respond(422, null)
+        do_create
+        expect(flash.error).toBe('Invalid parameters')
+

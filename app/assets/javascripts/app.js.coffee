@@ -13,6 +13,9 @@ app.config([ '$routeProvider',
        .when('/',
         templateUrl: 'index.html'
         controller: 'RecipeIndexController'
+      ).when('/recipes/new',
+        templateUrl: 'new.html'
+        controller: 'RecipeNewController'
       ).when('/recipes/:id',
         templateUrl: 'show.html'
         controller: 'RecipeShowController'

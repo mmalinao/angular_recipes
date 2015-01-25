@@ -19,6 +19,7 @@ describe 'RecipeIndexController', ->
       $httpBackend = _$httpBackend_
     )
 
+  lazy 'keywords', -> null
   lazy 'get_request', -> new RegExp("\/recipes.*keywords=#{keywords}")
 
   beforeEach ->
@@ -37,7 +38,6 @@ describe 'RecipeIndexController', ->
     $httpBackend.verifyNoOutstandingRequest()
 
   describe 'when no keywords present', ->
-    lazy 'keywords', -> null
 
     it 'should default to no recipes', ->
       expect($scope.recipes).toEqualData([])
@@ -54,7 +54,6 @@ describe 'RecipeIndexController', ->
       expect($scope.recipes).toEqualData(results)
 
   describe 'search()', ->
-    lazy 'keywords', -> null
 
     beforeEach ->
       $scope.search('foo')
@@ -64,10 +63,18 @@ describe 'RecipeIndexController', ->
       expect($location.search()).toEqualData({ keywords: 'foo' })
 
   describe 'view()', ->
-    lazy 'keywords', -> null
 
     beforeEach ->
       $scope.view(1)
 
     it 'should set location path to recipe path', ->
       expect($location.path()).toBe('/recipes/1')
+
+  describe 'new_recipe()', ->
+
+    beforeEach ->
+      $scope.new_recipe()
+
+    it 'should set location path to new recipe path', ->
+      expect($location.path()).toBe('/recipes/new')
+

@@ -4,10 +4,8 @@ controllers.controller('RecipeIndexController', ['$scope', '$routeParams', '$loc
   ($scope, $routeParams, $location, $resource) ->
     Recipes = $resource('/api/v1/recipes', { format: 'json' } )
 
-    if $routeParams.keywords
-      Recipes.query(keywords: $routeParams.keywords, (results) -> $scope.recipes = results)
-    else
-      $scope.recipes = [] # TODO: should default to all recipes
+    params = if $routeParams.keywords then { keywords: $routeParams.keywords } else {}
+    Recipes.query(params, (results) -> $scope.recipes = results)
 
     $scope.search = (keywords) -> $location.path('/').search('keywords', keywords)
 

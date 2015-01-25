@@ -20,7 +20,8 @@ describe 'RecipeIndexController', ->
     )
 
   lazy 'keywords', -> null
-  lazy 'get_request', -> new RegExp("\/recipes.*keywords=#{keywords}")
+  lazy 'get_request', -> new RegExp("\/recipes")
+  lazy 'results', -> [ Factory.build('recipe') ]
 
   beforeEach ->
     module 'app'
@@ -33,18 +34,24 @@ describe 'RecipeIndexController', ->
       $routeParams: $routeParams
       $location: $location
 
+    $httpBackend.whenGET(get_request).respond(200, results)
+
   afterEach ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
   describe 'when no keywords present', ->
 
-    it 'should default to no recipes', ->
-      expect($scope.recipes).toEqualData([])
+    beforeEach ->
+      $httpBackend.expectGET(get_request).respond(200, results)
+      $httpBackend.flush()
+
+    it 'should default to all recipes', ->
+      expect($scope.recipes).toEqualData(results)
 
   describe 'with keywords', ->
     lazy 'keywords', -> 'foo'
-    lazy 'results', [ Factory.build('recipe') ]
+    lazy 'get_request', -> new RegExp("\/recipes.*keywords=#{keywords}")
 
     beforeEach ->
       $httpBackend.expectGET(get_request).respond(200, results)
@@ -56,6 +63,7 @@ describe 'RecipeIndexController', ->
   describe 'search()', ->
 
     beforeEach ->
+      $httpBackend.flush()
       $scope.search('foo')
 
     it 'should redirect to itself with a keyword param', ->
@@ -65,6 +73,7 @@ describe 'RecipeIndexController', ->
   describe 'view()', ->
 
     beforeEach ->
+      $httpBackend.flush()
       $scope.view(1)
 
     it 'should set location path to recipe path', ->
@@ -73,6 +82,7 @@ describe 'RecipeIndexController', ->
   describe 'new_recipe()', ->
 
     beforeEach ->
+      $httpBackend.flush()
       $scope.new_recipe()
 
     it 'should set location path to new recipe path', ->

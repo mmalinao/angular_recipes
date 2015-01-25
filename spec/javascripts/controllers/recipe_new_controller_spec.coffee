@@ -62,3 +62,10 @@ describe 'RecipeNewController', ->
         do_create
         expect(flash.error).toBe('Invalid parameters')
 
+  describe 'cancel()', ->
+    lazy 'do_cancel', -> $scope.cancel()
+
+    it 'should set location path back to root path', ->
+      do_cancel
+      expect($location.path()).toBe('/')
+

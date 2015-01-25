@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 feature "Creating a recipe", :js do
+
   scenario 'create a new recipe' do
     visit '/'
     click_on 'New Recipe'
@@ -14,5 +15,13 @@ feature "Creating a recipe", :js do
     expect(page).to have_content('Slather in oil')
 
     expect(Recipe.find_by_name('Baked Brussel Sprouts')).to_not be_nil
+  end
+
+  scenario 'cancel' do
+    visit '#/recipes/new'
+
+    click_on 'Cancel'
+
+    expect(page).to_not have_content('Save')
   end
 end

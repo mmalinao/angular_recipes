@@ -13,4 +13,6 @@ controllers.controller('RecipeNewController', ['$scope', '$resource', '$location
         (new_recipe) -> $location.path("/recipes/#{new_recipe.id}"),
         (httpResponse) -> flash.error = 'Invalid parameters'
       )
+
+    $scope.cancel = -> $location.path('/')
 ])

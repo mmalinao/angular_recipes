@@ -43,7 +43,8 @@ group :test, :development do
   gem 'faker'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', require: false
+  gem 'poltergeist', require: false
   gem 'grape-entity-matchers'
   gem 'teaspoon'
   gem 'phantomjs'

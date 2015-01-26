@@ -23,5 +23,11 @@ class RecipesAPI < Grape::API
     post do
       present Recipe.create!(permitted_params), with: Recipe::Entity
     end
+
+    put ':id' do
+      recipe = Recipe.find(params[:id])
+      recipe.update_attributes!(permitted_params)
+      present recipe, with: Recipe::Entity
+    end
   end
 end
